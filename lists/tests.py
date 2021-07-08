@@ -40,7 +40,6 @@ class ListandItemModelsTest(TestCase):
     self.assertEqual(second_saved_item.text, 'Item the second')
     self.assertEqual(second_saved_item.list, list_)
 
-
 class ListViewTest(TestCase):
   def test_displays_all_items(self):
     correct_list = List.objects.create()
@@ -104,3 +103,4 @@ class NewItemTest(TestCase):
       data={'item_text': 'A new item for existing list'}
       )
     self.assertRedirects(response,f'/lists/{correct_list.id}/')
+
