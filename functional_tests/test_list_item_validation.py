@@ -28,7 +28,7 @@ class ItemValidationTest(FunctionalTest):
       "You can't have an empty list item"
     ))
 
-    inputbox = self.browser.find_elemebt_by_id('id_new_item')
+    inputbox = self.browser.find_element_by_id('id_new_item')
     inputbox.send_keys('Make tea')
     inputbox.send_keys(Keys.ENTER)  
     self.wait_for_row_in_list_table('1: Buy milk')
