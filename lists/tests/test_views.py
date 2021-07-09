@@ -1,3 +1,5 @@
+from lists.forms import ItemForm
+from django.http import response
 from lists.views import new_list
 from django.test import TestCase
 from lists.models import Item, List
@@ -8,9 +10,9 @@ class HomePageTest(TestCase):
     response = self.client.get('/')
     self.assertTemplateUsed(response, 'home.html')
   
-  def test_only_save_item_when_neccessary(self):
-    self.client.get('/')
-    self.assertEqual(Item.objects.count(), 0)
+  def test_home_page_uses_item_form(self):
+    response = self.client.get('/')
+    self.assertIsInstance(response.context['form'], ItemForm)
   
 class ListViewTest(TestCase):
   def test_displays_all_items(self):
