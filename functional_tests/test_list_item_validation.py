@@ -7,29 +7,23 @@ class ItemValidationTest(FunctionalTest):
   def test_cannot_add_empty_list_items(self):
     self.browser.get(self.live_server_url)
 
-    inputbox = self.browser.find_element_by_id('id_new_item')
+    inputbox = self.get_item_input_box()
     inputbox.send_keys(Keys.ENTER)  
+    self.wait_for(lambda: self.browser.find_element_by_css_selector('#id_text:invalid'))
 
-    self.wait_for(lambda: self.assertEqual(
-      self.browser.find_element_by_css_selector('.has-error').text,
-      "You can't have an empty list item"
-    ))
-
-    inputbox = self.browser.find_element_by_id('id_new_item')
+    inputbox = self.get_item_input_box()
     inputbox.send_keys('Buy milk')
+    self.wait_for(lambda: self.browser.find_element_by_css_selector('#id_text:valid'))
     inputbox.send_keys(Keys.ENTER)  
     self.wait_for_row_in_list_table('1: Buy milk')
 
-    inputbox = self.browser.find_element_by_id('id_new_item')
+    inputbox = self.get_item_input_box()
     inputbox.send_keys(Keys.ENTER)  
-    
-    self.wait_for(lambda: self.assertEqual(
-      self.browser.find_element_by_css_selector('.has-error').text,
-      "You can't have an empty list item"
-    ))
+    self.wait_for(lambda: self.browser.find_element_by_css_selector('#id_text:invalid'))
 
-    inputbox = self.browser.find_element_by_id('id_new_item')
+    inputbox = self.get_item_input_box()
     inputbox.send_keys('Make tea')
+    self.wait_for(lambda: self.browser.find_element_by_css_selector('#id_text:valid'))
     inputbox.send_keys(Keys.ENTER)  
     self.wait_for_row_in_list_table('1: Buy milk')
     self.wait_for_row_in_list_table('2: Make tea')
