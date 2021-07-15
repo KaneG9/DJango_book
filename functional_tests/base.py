@@ -3,6 +3,7 @@ import time
 from selenium.common.exceptions import WebDriverException
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import os
+from selenium.webdriver.common.keys import Keys
 
 MAX_WAIT = 5
 
@@ -52,3 +53,10 @@ class FunctionalTest(StaticLiveServerTestCase):
   @wait
   def wait_for(self, fn):
     return fn()
+  
+  def add_list_item(self, text):
+    num_rows = len(self.browser.find_elements_by_css_selector('#id_list_table tr'))
+    self.get_item_input_box().send_keys(text)
+    self.get_item_input_box().send_keys(Keys.ENTER)
+    item_number = num_rows + 1
+    self.wait_for_row_in_list_table(f'{item_number}: {text}')
